@@ -1,0 +1,74 @@
+{
+    "name": "enhanced",
+    "model": {
+        "which_model": {
+            "name": [
+                "models.model",
+                "Model"
+            ],
+            "args": {}
+        },
+        "networks": [
+            {
+                "name": [
+                    "models.cdan",
+                    "EnhancedCDAN"
+                ],
+                "args": {}
+            }
+        ]
+    },
+    "train": {
+        "device": "cuda",
+        "n_epoch": 500,
+        "lr": 1e-3,
+        "dataset": {
+            "name": [
+                "data.dataset",
+                "PairedDataset"
+            ],
+            "args": {
+                "low_light_root": "/mnt/3T_disk/chenqi/CDAN/our485/low", 
+                "normal_light_root": "/mnt/3T_disk/chenqi/CDAN/our485/high",
+                "image_size": [200, 200]
+            }
+        },
+        "dataloader": {
+            "args": {
+                "batch_size": 16,
+                "shuffle": "False",
+                "num_workers": 4
+            }
+        },
+        "model_path": "saved_models/",
+        "model_name": "EnhancedCDAN_16.pt",
+        "metrics_path": "saved_models/metrics/enhanced_batch16"
+    },
+    "test": {
+        "device": "cuda",
+        "dataset": {
+            "name": [
+                "data.dataset",
+                "PairedDataset"
+            ],
+            "args": {
+                "low_light_root": "/mnt/3T_disk/chenqi/CDAN/eval15/low", 
+                "normal_light_root": "/mnt/3T_disk/chenqi/CDAN/eval15/high",
+                "image_size": [200, 200]
+            },
+            "is_paired": "True"
+        },
+        "dataloader": {
+            "args": {
+                "batch_size": 16,
+                "shuffle": "False",
+                "num_workers": 4
+            }
+        },
+        "apply_post_processing": "True",
+        "model_path": "/mnt/3T_disk/chenqi/CDAN/saved_models",
+        "model_name": "EnhancedCDAN_16.pt",
+        "output_images_path": "output_images_enhanced_16/",
+        "metrics_path": "/mnt/3T_disk/chenqi/CDAN/saved_models/metrics/enhanced_batch_16"
+    }
+}
